@@ -17,14 +17,28 @@ var chooseSlotItem = function(slot, interval){
 var main = function(){
 	console.log("Hello Vane!");
 
-	var $leftSlot = $("#leftSlot"),
-		$middleSlot = $("#middleSlot"),
-		$rightSlot = $("#rightSlot");
+	var $leftSlot = $("#leftSlotItem"),
+		$middleSlot = $("#middleSlotItem"),
+		$rightSlot = $("#rightSlotItem"),
+		$leftButton = $("#leftButton"),
+		$middleButton = $("#middleButton"),
+		$rightButton = $("#rightButton");
 
 	chooseSlotItem($leftSlot, 200);
 	chooseSlotItem($middleSlot, 100);
 	chooseSlotItem($rightSlot, 300);
 
+	$leftButton.on("click", function(){
+		console.log("Left Stop button clicked");
+	});
+
+	$middleButton.on("click", function(){
+		console.log("Middle Stop button clicked");
+	});
+
+	$rightButton.on("click", function(){
+		console.log("Right Stop button clicked");
+	});
 };
 
 
