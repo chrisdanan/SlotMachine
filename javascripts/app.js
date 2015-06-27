@@ -12,6 +12,7 @@ var randomElement = function(){
 	var randElement =  slotElements[Math.floor(Math.random() * slotElements.length)];
 	console.log(randElement);
 
+	//Reference: http://stackoverflow.com/questions/4623265/how-to-add-duplicate-image-on-same-page-with-java-script-after-page-loaded
 	randElement = randElement.clone();
 
 	return randElement;
@@ -57,9 +58,9 @@ var main = function(){
 		$middleSlot.toggleClass("spinning");
 		$rightSlot.toggleClass("spinning");
 
-		leftTimer = chooseSlotItem($leftSlot, 5000);
-		middleTimer = chooseSlotItem($middleSlot, 5000);
-		rightTimer = chooseSlotItem($rightSlot, 5000);
+		leftTimer = chooseSlotItem($leftSlot, 100);
+		middleTimer = chooseSlotItem($middleSlot, 100);
+		rightTimer = chooseSlotItem($rightSlot, 100);
 	});
 
 	$leftButton.on("click", function(){

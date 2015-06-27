@@ -2,3 +2,22 @@ body{
 	font-family: verdana, arial, sans-serif;
 	font-size: 100%;
 }
+
+#leftSlot, #middleSlot, #rightSlot{
+	display: inline-block;
+	width: 300px;
+	height: 300px;
+}
+
+#leftSlotItem, #middleSlotItem, #rightSlotItem{
+	width: 300px;
+	height: 300px;
+	margin: auto;
+	position: relative;
+}
+
+p.defaultText{
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+}
