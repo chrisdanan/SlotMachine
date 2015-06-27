@@ -1,9 +1,15 @@
-var slotElements = [5, 6, 7, 8, 9],
+var $azumangaDaioh = $("<img>").attr("id", "azumangaDaioh").addClass("slotImage").attr("src", "assets/images/AzumangaDaioh.jpg").attr("alt", "Azumanga Daioh slot image"),
+	$toraDora = $("<img>").attr("id", "toraDora").addClass("slotImage").attr("src", "assets/images/ToraDora.jpg").attr("alt", "Toradora slot image"),
+	$swordArtOnline = $("<img>").attr("id", "swordArtOnline").addClass("slotImage").attr("src", "assets/images/SwordArtOnline.jpg").attr("alt", "Sword Art Online slot image"),
+	$spiritedAway = $("<img>").attr("id", "spiritedAway").addClass("slotImage").attr("src", "assets/images/SpiritedAway.jpg").attr("alt", "Spirited Away slot image"),
+	$paranoiaAgent = $("<img>").attr("id", "paranoiaAgent").addClass("slotImage").attr("src", "assets/images/ParanoiaAgent.jpg").attr("alt", "Paranoia Agent slot image");
+
+var slotElements = [$azumangaDaioh, $toraDora, $swordArtOnline, $spiritedAway, $paranoiaAgent],
 	leftTimer, middleTimer, rightTimer;
 
 var randomElement = function(){
 	//Reference: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
-	var randElement =  slotElements[Math.floor(Math.random() * 5)];
+	var randElement =  slotElements[Math.floor(Math.random() * slotElements.length)];
 
 	return randElement;
 };
@@ -11,7 +17,7 @@ var randomElement = function(){
 var chooseSlotItem = function(slot, interval){
 	slotTimer = setInterval(function(){
 		slot.empty();
-		slot.append($("<p>").text(randomElement()));
+		slot.append(randomElement());
 	}, interval);
 
 	return slotTimer;
