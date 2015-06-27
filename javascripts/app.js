@@ -17,6 +17,14 @@ var chooseSlotItem = function(slot, interval){
 	return slotTimer;
 };
 
+var stopSlot = function(slot, slotTimer){
+	console.log("Stop button was clicked.");
+	if(slot.hasClass("spinning")){
+		slot.toggleClass("spinning");
+		clearInterval(slotTimer);
+	}
+};
+
 var main = function(){
 	console.log("Hello Vane!");
 
@@ -39,27 +47,15 @@ var main = function(){
 	});
 
 	$leftButton.on("click", function(){
-		console.log("Left Stop button clicked");
-		if($leftSlot.hasClass("spinning")){
-			$leftSlot.toggleClass("spinning");
-			clearInterval(leftTimer);
-		}
+		stopSlot($leftSlot, leftTimer);
 	});
 
 	$middleButton.on("click", function(){
-		console.log("Middle Stop button clicked");
-		if($middleSlot.hasClass("spinning")){
-			$middleSlot.toggleClass("spinning");
-			clearInterval(middleTimer);
-		}
+		stopSlot($middleSlot, middleTimer);
 	});
 
 	$rightButton.on("click", function(){
-		console.log("Right Stop button clicked");
-		if($rightSlot.hasClass("spinning")){
-			$rightSlot.toggleClass("spinning");
-			clearInterval(rightTimer);
-		}
+		stopSlot($rightSlot, rightTimer);
 	});
 };
 
