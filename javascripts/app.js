@@ -49,6 +49,11 @@ var main = function(){
 
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
+
+		$leftSlot.empty();
+		$middleSlot.empty();
+		$rightSlot.empty();
+
 		//Initialize slots. The timer will only initialize the slots at the set time interval.
 		// Instead, we want the items to appear immediately once the button is clicked.
 		$leftSlot.append(randomElement());
