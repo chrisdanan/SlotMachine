@@ -3,12 +3,56 @@ body{
 	font-size: 100%;
 }
 
+div{
+	border: 1px solid red;
+}
+
+#slotMachine{
+	width: 1100px;
+	height: 500px;
+}
+
 #leftSlot, #middleSlot, #rightSlot{
 	display: inline-block;
 	width: 300px;
-	height: 300px;
+	height: 400px;
 }
 
+#leftSlotButton, #middleSlotButton, #rightSlotButton{
+	margin-top: 10px;
+}
+
+.stopButton{
+	width: 150px;
+	height: 80px;
+	margin-left: 75px;
+}
+
+#controls{
+	display: inline-block;
+	position: relative;
+	width: 150px;
+	height: 300px;
+	float: right;
+}
+
+#spinButton{
+	position: absolute;
+	margin-left: 25px;
+	top: 40%;
+	width: 100px;
+	height: 50px;
+}
+
+#stopAll{
+	position: absolute;
+	margin-left: 25px;
+	top: 60%;
+	width: 100px;
+	height: 50px;
+}
+
+/*Reference for vertically aligning elements: http://www.w3.org/Style/Examples/007/center.en.html*/
 #leftSlotItem, #middleSlotItem, #rightSlotItem{
 	width: 300px;
 	height: 300px;
@@ -21,3 +65,5 @@ p.defaultText{
 	top: 50%;
 	transform: translate(0, -50%);
 }
+
+

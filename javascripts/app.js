@@ -44,6 +44,7 @@ var main = function(){
 		$leftButton = $("#leftButton"),
 		$middleButton = $("#middleButton"),
 		$rightButton = $("#rightButton"),
+		$stopAllButton = $("#stopAll"),
 		$spinButton = $("#spinButton");
 
 	$spinButton.on("click", function(){
@@ -72,6 +73,13 @@ var main = function(){
 	});
 
 	$rightButton.on("click", function(){
+		stopSlot($rightSlot, rightTimer);
+	});
+
+	$stopAllButton.on("click", function(){
+		console.log("Stop All Slots button clicked");
+		stopSlot($leftSlot, leftTimer);
+		stopSlot($middleSlot, middleTimer);
 		stopSlot($rightSlot, rightTimer);
 	});
 };
