@@ -16,6 +16,7 @@ var $azumangaDaioh = $("<img>").addClass("slotImage azumangaDaioh").attr("src", 
 
 
 var slotElements = [$azumangaDaioh, $toraDora, $swordArtOnline, $spiritedAway, $paranoiaAgent],  //Put images into an array for randomized picking.
+	slotElementsLength = slotElements.length,
 	leftTimer, middleTimer, rightTimer;  //Holds value of each slot's timer in milliseconds.
 
 /*************
@@ -25,7 +26,7 @@ var slotElements = [$azumangaDaioh, $toraDora, $swordArtOnline, $spiritedAway, $
 *************/
 var randomElement = function(){
 	//Reference: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
-	var randElement =  slotElements[Math.floor(Math.random() * slotElements.length)];
+	var randElement =  slotElements[Math.floor(Math.random() * slotElementsLength)];
 	//console.log(randElement);
 
 	//Reference: http://stackoverflow.com/questions/4623265/how-to-add-duplicate-image-on-same-page-with-java-script-after-page-loaded
@@ -37,17 +38,31 @@ var randomElement = function(){
 };
 
 /*************
-* Purpose: Place an image into one of the slots of the slot machine.
+* Purpose: Place a random or ordered image into one of the slots of the slot machine.
 * Input:
 		-slot: One of the slots of the slot machine (left, middle, or right).
 		-interval: The amount of time for each slot before it changes images.
+		-ordered: If true, then the slots will spin in the order of images in the array.
+					If false, then the slots will be given images in a random order.
 * Output: Returns the id of the setInterval function to be used later for stopping the slot.
 *************/
-var chooseSlotItem = function(slot, interval){
-	slotTimer = setInterval(function(){
-		slot.empty();
-		slot.append(randomElement());
-	}, interval);
+var chooseSlotItem = function(slot, interval, ordered){
+	var counter = Math.floor(Math.random() * slotElementsLength);
+
+	if(ordered){
+		slotTimer = setInterval(function(){
+			slot.empty();
+			var element = slotElements[counter % slotElementsLength];
+			element = element.clone();
+			slot.append(element);
+			counter++;
+		}, interval);
+	} else{
+		slotTimer = setInterval(function(){
+			slot.empty();
+			slot.append(randomElement());
+		}, interval);
+	}
 
 	return slotTimer;
 };
@@ -166,9 +181,9 @@ var main = function(){
 		$middleSlot.toggleClass("stopped");
 		$rightSlot.toggleClass("stopped");
 
-		leftTimer = chooseSlotItem($leftSlot, leftTimerVal);
-		middleTimer = chooseSlotItem($middleSlot, middleTimerVal);
-		rightTimer = chooseSlotItem($rightSlot, rightTimerVal);
+		leftTimer = chooseSlotItem($leftSlot, leftTimerVal, true);
+		middleTimer = chooseSlotItem($middleSlot, middleTimerVal, true);
+		rightTimer = chooseSlotItem($rightSlot, rightTimerVal, true);
 	});
 
 	//Handle if the left Stop button was clicked.
