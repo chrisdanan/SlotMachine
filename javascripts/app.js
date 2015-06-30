@@ -50,6 +50,10 @@ var main = function(){
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
 
+		var leftTimerVal = $("#setLeftTimer").val(),
+			middleTimerVal = $("#setMiddleTimer").val(),
+			rightTimerVal = $("#setRightTimer").val();
+
 		$leftSlot.empty();
 		$middleSlot.empty();
 		$rightSlot.empty();
@@ -64,9 +68,9 @@ var main = function(){
 		$middleSlot.toggleClass("spinning");
 		$rightSlot.toggleClass("spinning");
 
-		leftTimer = chooseSlotItem($leftSlot, 100);
-		middleTimer = chooseSlotItem($middleSlot, 100);
-		rightTimer = chooseSlotItem($rightSlot, 100);
+		leftTimer = chooseSlotItem($leftSlot, leftTimerVal);
+		middleTimer = chooseSlotItem($middleSlot, middleTimerVal);
+		rightTimer = chooseSlotItem($rightSlot, rightTimerVal);
 	});
 
 	$leftButton.on("click", function(){
