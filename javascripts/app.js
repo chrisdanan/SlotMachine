@@ -15,6 +15,8 @@ var randomElement = function(){
 	//Reference: http://stackoverflow.com/questions/4623265/how-to-add-duplicate-image-on-same-page-with-java-script-after-page-loaded
 	randElement = randElement.clone();
 
+	console.log(randElement);
+
 	return randElement;
 };
 
@@ -28,11 +30,39 @@ var chooseSlotItem = function(slot, interval){
 };
 
 var stopSlot = function(slot, slotTimer){
-	console.log("Stop button was clicked.");
 	if(slot.hasClass("spinning")){
 		slot.toggleClass("spinning");
 		clearInterval(slotTimer);
 	}
+};
+
+var getImgClass = function(img){
+	var imgClass = img.attr("class").split(" ");
+
+	imgClass = imgClass[1];
+
+	return imgClass;
+};
+
+var checkWin = function(){
+	var $leftImg = $("#leftSlotItem img"),
+		$midImg = $("#middleSlotItem img"),
+		$rightImg = $("#rightSlotItem img"),
+		leftClass, midClass, rightClass;
+
+		leftClass = getImgClass($leftImg);
+		midClass = getImgClass($midImg);
+		rightClass = getImgClass($rightImg);
+
+		console.log("Left image is " + leftClass);
+		console.log("Middle image is " + midClass);
+		console.log("Right image is " + rightClass);
+
+		if(leftClass === midClass && leftClass === rightClass){
+			console.log("WINNER");
+		} else{
+			console.log("LOSER");
+		}
 };
 
 var main = function(){
@@ -74,14 +104,17 @@ var main = function(){
 	});
 
 	$leftButton.on("click", function(){
+		console.log("Left Stop button clicked");
 		stopSlot($leftSlot, leftTimer);
 	});
 
 	$middleButton.on("click", function(){
+		console.log("Middle slot button clicked");
 		stopSlot($middleSlot, middleTimer);
 	});
 
 	$rightButton.on("click", function(){
+		console.log("Right slot button clicked");
 		stopSlot($rightSlot, rightTimer);
 	});
 
@@ -90,6 +123,8 @@ var main = function(){
 		stopSlot($leftSlot, leftTimer);
 		stopSlot($middleSlot, middleTimer);
 		stopSlot($rightSlot, rightTimer);
+
+		checkWin($leftSlot, $middleSlot, $rightSlot);
 	});
 };
 
