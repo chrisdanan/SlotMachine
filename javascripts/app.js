@@ -26,12 +26,12 @@ var slotElements = [$azumangaDaioh, $toraDora, $swordArtOnline, $spiritedAway, $
 var randomElement = function(){
 	//Reference: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
 	var randElement =  slotElements[Math.floor(Math.random() * slotElements.length)];
-	console.log(randElement);
+	//console.log(randElement);
 
 	//Reference: http://stackoverflow.com/questions/4623265/how-to-add-duplicate-image-on-same-page-with-java-script-after-page-loaded
 	randElement = randElement.clone();
 
-	console.log(randElement);
+	//console.log(randElement);
 
 	return randElement;
 };
@@ -62,6 +62,7 @@ var chooseSlotItem = function(slot, interval){
 var stopSlot = function(slot, slotTimer){
 	if(slot.hasClass("spinning")){
 		slot.toggleClass("spinning");
+		slot.toggleClass("stopped");
 		clearInterval(slotTimer);
 	}
 };
@@ -107,6 +108,21 @@ var checkWin = function(){
 		}
 };
 
+/*************
+* Purpose: Check if all of the slots have stopped winning.
+* Input: None.
+* Output: Call the checkWin function if all slots are stopped.
+*************/
+var checkAllStopped = function(){
+	var $leftSlot = $("#leftSlotItem"),
+		$middleSlot = $("#middleSlotItem"),
+		$rightSlot = $("#rightSlotItem");
+
+	if($leftSlot.hasClass("stopped") && $middleSlot.hasClass("stopped") && $rightSlot.hasClass("stopped")){
+		checkWin();
+	}
+};
+
 var main = function(){
 	console.log("Hello Vane!");
 
@@ -143,6 +159,9 @@ var main = function(){
 		$leftSlot.toggleClass("spinning");
 		$middleSlot.toggleClass("spinning");
 		$rightSlot.toggleClass("spinning");
+		$leftSlot.toggleClass("stopped");
+		$middleSlot.toggleClass("stopped");
+		$rightSlot.toggleClass("stopped");
 
 		leftTimer = chooseSlotItem($leftSlot, leftTimerVal);
 		middleTimer = chooseSlotItem($middleSlot, middleTimerVal);
@@ -153,18 +172,21 @@ var main = function(){
 	$leftButton.on("click", function(){
 		console.log("Left Stop button clicked");
 		stopSlot($leftSlot, leftTimer);
+		checkAllStopped();
 	});
 
 	//Handle if the middle Stop button was clicked.
 	$middleButton.on("click", function(){
 		console.log("Middle slot button clicked");
 		stopSlot($middleSlot, middleTimer);
+		checkAllStopped();
 	});
 
 	//Handle if the right Stop button was clicked.
 	$rightButton.on("click", function(){
 		console.log("Right slot button clicked");
 		stopSlot($rightSlot, rightTimer);
+		checkAllStopped();
 	});
 
 	//Handle if the Stop All Slots button was clicked.
