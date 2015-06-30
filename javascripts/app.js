@@ -103,8 +103,10 @@ var checkWin = function(){
 
 		if(leftClass === midClass && leftClass === rightClass){
 			console.log("WINNER");
+			$("#outcome").append($("<p>").text("Winner!"));
 		} else{
 			console.log("LOSER");
+			$("#outcome").append($("<p>").text("No Win"));
 		}
 };
 
@@ -145,10 +147,11 @@ var main = function(){
 			middleTimerVal = $("#setMiddleTimer").val(),
 			rightTimerVal = $("#setRightTimer").val();
 
-		//Empty any images currently shown in the slots.
+		//Reset the slot machine by removing previous slot images and text.
 		$leftSlot.empty();
 		$middleSlot.empty();
 		$rightSlot.empty();
+		$("#outcome").empty();
 
 		//Initialize slots. The timer will only initialize the slots at the set time interval.
 		// Instead, we want the items to appear immediately once the button is clicked.
