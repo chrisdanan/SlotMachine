@@ -103,10 +103,13 @@ var getImgClass = function(img){
 * Output: Log if the player won or lost. THIS WILL BE UPDATED LATER 
 *************/
 var checkWin = function(){
-	var $leftImg = $("#leftSlotItem img"),
-		$midImg = $("#middleSlotItem img"),
-		$rightImg = $("#rightSlotItem img"),
-		leftClass, midClass, rightClass;
+	//Reference for checking if an element exists: https://learn.jquery.com/using-jquery-core/faq/how-do-i-test-whether-an-element-exists/
+	//First check if an outcome has already been received. If not, then calculate outcome of the round.
+	if(!$("#outcome p").length){
+		var $leftImg = $("#leftSlotItem img"),
+			$midImg = $("#middleSlotItem img"),
+			$rightImg = $("#rightSlotItem img"),
+			leftClass, midClass, rightClass;
 
 		leftClass = getImgClass($leftImg);
 		midClass = getImgClass($midImg);
@@ -123,12 +126,16 @@ var checkWin = function(){
 			console.log("LOSER");
 			$("#outcome").append($("<p>").text("No Win"));
 		}
+
+		//Re-enable the Spin button.
+		$("#spinButton").prop("disabled", false);
+	}
 };
 
 /*************
 * Purpose: Check if all of the slots have stopped winning.
 * Input: None.
-* Output: Call the checkWin function if all slots are stopped.
+* Output: Return true if all slots are not moving.
 *************/
 var checkAllStopped = function(){
 	var $leftSlot = $("#leftSlotItem"),
@@ -136,7 +143,7 @@ var checkAllStopped = function(){
 		$rightSlot = $("#rightSlotItem");
 
 	if($leftSlot.hasClass("stopped") && $middleSlot.hasClass("stopped") && $rightSlot.hasClass("stopped")){
-		checkWin();
+		return true;
 	}
 };
 
@@ -156,6 +163,10 @@ var main = function(){
 	//Handle Spin Button logic.
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
+
+		//Reference for disabling button: http://stackoverflow.com/questions/15122526/disable-button-in-jquery
+		//Disable the spin button to prevent multiple timers being set.
+		$spinButton.prop("disabled", true);
 
 		//Hold the number of milliseconds for each slot's timer.
 		var leftTimerVal = $("#setLeftTimer").val(),
@@ -190,21 +201,27 @@ var main = function(){
 	$leftButton.on("click", function(){
 		console.log("Left Stop button clicked");
 		stopSlot($leftSlot, leftTimer);
-		checkAllStopped();
+		if(checkAllStopped()){
+			checkWin();
+		}
 	});
 
 	//Handle if the middle Stop button was clicked.
 	$middleButton.on("click", function(){
 		console.log("Middle slot button clicked");
 		stopSlot($middleSlot, middleTimer);
-		checkAllStopped();
+		if(checkAllStopped()){
+			checkWin();
+		}
 	});
 
 	//Handle if the right Stop button was clicked.
 	$rightButton.on("click", function(){
 		console.log("Right slot button clicked");
 		stopSlot($rightSlot, rightTimer);
-		checkAllStopped();
+		if(checkAllStopped()){
+			checkWin();
+		}
 	});
 
 	//Handle if the Stop All Slots button was clicked.
