@@ -14,6 +14,12 @@ var $azumangaDaioh = $("<img>").addClass("slotImage azumangaDaioh").attr("src", 
 	$spiritedAway = $("<img>").addClass("slotImage spiritedAway").attr("src", "assets/images/SpiritedAway.jpg").attr("alt", "Spirited Away slot image"),
 	$paranoiaAgent = $("<img>").addClass("slotImage paranoiaAgent").attr("src", "assets/images/ParanoiaAgent.jpg").attr("alt", "Paranoia Agent slot image");
 
+//Sounds used for the game.
+var softClick = new Audio("assets/sounds/softClick.mp3"),
+	loudClick = new Audio("assets/sounds/loudClick.mp3"),
+	lowBeep = new Audio("assets/sounds/lowBeep.mp3");
+
+lowBeep.loop = true;
 
 var slotElements = [$azumangaDaioh, $toraDora, $swordArtOnline, $spiritedAway, $paranoiaAgent],  //Put images into an array for randomized picking.
 	slotElementsLength = slotElements.length,
@@ -48,6 +54,8 @@ var randomElement = function(){
 *************/
 var chooseSlotItem = function(slot, interval, ordered){
 	var counter = Math.floor(Math.random() * slotElementsLength);
+
+	lowBeep.play();
 
 	if(ordered){
 		slotTimer = setInterval(function(){
@@ -111,6 +119,8 @@ var checkWin = function(){
 			$rightImg = $("#rightSlotItem img"),
 			leftClass, midClass, rightClass;
 
+		lowBeep.pause();
+
 		leftClass = getImgClass($leftImg);
 		midClass = getImgClass($midImg);
 		rightClass = getImgClass($rightImg);
@@ -164,6 +174,8 @@ var main = function(){
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
 
+		loudClick.play();
+
 		//Reference for disabling button: http://stackoverflow.com/questions/15122526/disable-button-in-jquery
 		//Disable the spin button to prevent multiple timers being set.
 		$spinButton.prop("disabled", true);
@@ -200,6 +212,8 @@ var main = function(){
 	//Handle if the left Stop button was clicked.
 	$leftButton.on("click", function(){
 		console.log("Left Stop button clicked");
+		//Reference on how to play sound: http://stackoverflow.com/questions/9419263/playing-audio-with-javascript
+		softClick.play();
 		stopSlot($leftSlot, leftTimer);
 		if(checkAllStopped()){
 			checkWin();
@@ -209,6 +223,7 @@ var main = function(){
 	//Handle if the middle Stop button was clicked.
 	$middleButton.on("click", function(){
 		console.log("Middle slot button clicked");
+		softClick.play();
 		stopSlot($middleSlot, middleTimer);
 		if(checkAllStopped()){
 			checkWin();
@@ -218,6 +233,7 @@ var main = function(){
 	//Handle if the right Stop button was clicked.
 	$rightButton.on("click", function(){
 		console.log("Right slot button clicked");
+		softClick.play();
 		stopSlot($rightSlot, rightTimer);
 		if(checkAllStopped()){
 			checkWin();
@@ -227,6 +243,8 @@ var main = function(){
 	//Handle if the Stop All Slots button was clicked.
 	$stopAllButton.on("click", function(){
 		console.log("Stop All Slots button clicked");
+		softClick.play();
+
 		stopSlot($leftSlot, leftTimer);
 		stopSlot($middleSlot, middleTimer);
 		stopSlot($rightSlot, rightTimer);
