@@ -7,11 +7,15 @@
 * Purpose: Script will handle all game logic.
 *************/
 
+//Stats for the player.
 var stats = {
 	money: 100,
 	wins: 0,
 	losses: 0
 };
+
+//Amount of money the player has bet.
+var bet = 0;
 
 //Images used in the slot machine.
 var $azumangaDaioh = $("<img>").addClass("slotImage azumangaDaioh").attr("src", "assets/images/AzumangaDaioh.jpg").attr("alt", "Azumanga Daioh slot image"),
@@ -133,8 +137,8 @@ var checkWin = function(){
 
 		if(leftClass === midClass && leftClass === rightClass){
 			console.log("WINNER");
-			moneyFunction(50);
-			
+			moneyFunction(bet * 2); //Prize is double the bet amount.
+
 			stats.wins++;
 
 			$("#outcome").append($("<p>").text("Winner!"));
@@ -144,8 +148,12 @@ var checkWin = function(){
 			$("#outcome").append($("<p>").text("No Win"));
 		}
 
-		//Re-enable the Spin button.
-		$("#spinButton").prop("disabled", false);
+		if(stats.money <= 0){
+			$("#outcome").append($("<p>").text("No More money!"));
+		} else{
+			//Re-enable the Spin button.
+			$("#spinButton").prop("disabled", false);
+		}
 	}
 };
 
@@ -195,7 +203,11 @@ var main = function(){
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
 
-		moneyFunction(-25);
+		//Reference for getting value of radio button: http://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-radio-button-using-jquery.php
+		//Get the amount of the bet.
+		bet = parseInt($("input[name='betValue']:checked").val());
+
+		moneyFunction(-bet);
 
 		loudClick.play();
 
@@ -272,7 +284,7 @@ var main = function(){
 		stopSlot($middleSlot, middleTimer);
 		stopSlot($rightSlot, rightTimer);
 
-		checkWin($leftSlot, $middleSlot, $rightSlot);
+		checkWin();
 	});
 };
 
