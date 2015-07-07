@@ -7,6 +7,12 @@
 * Purpose: Script will handle all game logic.
 *************/
 
+var stats = {
+	money: 100,
+	wins: 0,
+	losses: 0
+};
+
 //Images used in the slot machine.
 var $azumangaDaioh = $("<img>").addClass("slotImage azumangaDaioh").attr("src", "assets/images/AzumangaDaioh.jpg").attr("alt", "Azumanga Daioh slot image"),
 	$toraDora = $("<img>").addClass("slotImage toraDora").attr("src", "assets/images/ToraDora.jpg").attr("alt", "Toradora slot image"),
@@ -125,15 +131,16 @@ var checkWin = function(){
 		midClass = getImgClass($midImg);
 		rightClass = getImgClass($rightImg);
 
-		console.log("Left image is " + leftClass);
-		console.log("Middle image is " + midClass);
-		console.log("Right image is " + rightClass);
-
 		if(leftClass === midClass && leftClass === rightClass){
 			console.log("WINNER");
+			moneyFunction(50);
+			
+			stats.wins++;
+
 			$("#outcome").append($("<p>").text("Winner!"));
 		} else{
 			console.log("LOSER");
+			stats.losses++;
 			$("#outcome").append($("<p>").text("No Win"));
 		}
 
@@ -157,6 +164,17 @@ var checkAllStopped = function(){
 	}
 };
 
+/*************
+* Purpose: Alter the value of the player's money.
+* Input: 
+		-value: the amount to add or subtract to the money counter.
+* Output: Alter the value of the money counter.
+*************/
+var moneyFunction = function(value){
+	stats.money += value;
+	$("#moneyCounter").text("$" + stats.money);
+};
+
 var main = function(){
 	console.log("Hello Vane!");
 
@@ -168,11 +186,16 @@ var main = function(){
 		$middleButton = $("#middleButton"),
 		$rightButton = $("#rightButton"),
 		$stopAllButton = $("#stopAll"),
-		$spinButton = $("#spinButton");
+		$spinButton = $("#spinButton"),
+		$moneyCounter = $("<p>").attr("id", "moneyCounter");
+
+	$("#money").append($moneyCounter.text("$" + stats.money));
 
 	//Handle Spin Button logic.
 	$spinButton.on("click", function(){
 		console.log("Spin button clicked");
+
+		moneyFunction(-25);
 
 		loudClick.play();
 

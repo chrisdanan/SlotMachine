@@ -18,6 +18,7 @@ div{
 	height: 400px;
 }
 
+
 #leftSlotButton, #middleSlotButton, #rightSlotButton{
 	margin-top: 10px;
 }
@@ -34,6 +35,10 @@ div{
 	width: 150px;
 	height: 400px;
 	float: right;
+}
+
+#moneyCounter{
+	text-align: center;
 }
 
 #spinButton{
@@ -86,7 +91,8 @@ div{
 p.defaultText{
 	position: absolute;
 	top: 50%;
-	transform: translate(0, -50%);
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 
