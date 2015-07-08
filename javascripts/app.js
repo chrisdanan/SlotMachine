@@ -65,7 +65,7 @@ var randomElement = function(){
 var chooseSlotItem = function(slot, interval, ordered){
 	var counter = Math.floor(Math.random() * slotElementsLength);
 
-	lowBeep.play();
+	//lowBeep.play();
 
 	if(ordered){
 		slotTimer = setInterval(function(){
@@ -148,12 +148,8 @@ var checkWin = function(){
 			$("#outcome").append($("<p>").text("No Win"));
 		}
 
-		if(stats.money <= 0){
-			$("#outcome").append($("<p>").text("No More money!"));
-		} else{
-			//Re-enable the Spin button.
-			$("#spinButton").prop("disabled", false);
-		}
+		//Re-enable the Spin button.
+		$("#spinButton").prop("disabled", false);
 	}
 };
 
@@ -180,6 +176,12 @@ var checkAllStopped = function(){
 *************/
 var moneyFunction = function(value){
 	stats.money += value;
+
+	//Ensure the counter always reads 0 when money runs out - you can't have negative money!
+	if(stats.money < 0){
+		stats.money = 0;
+	}
+
 	$("#moneyCounter").text("$" + stats.money);
 };
 
@@ -207,41 +209,45 @@ var main = function(){
 		//Get the amount of the bet.
 		bet = parseInt($("input[name='betValue']:checked").val());
 
-		moneyFunction(-bet);
-
 		loudClick.play();
 
-		//Reference for disabling button: http://stackoverflow.com/questions/15122526/disable-button-in-jquery
-		//Disable the spin button to prevent multiple timers being set.
-		$spinButton.prop("disabled", true);
+		if(stats.money >= bet){
+			moneyFunction(-bet);
 
-		//Hold the number of milliseconds for each slot's timer.
-		var leftTimerVal = $("#setLeftTimer").val(),
-			middleTimerVal = $("#setMiddleTimer").val(),
-			rightTimerVal = $("#setRightTimer").val();
+			//Reference for disabling button: http://stackoverflow.com/questions/15122526/disable-button-in-jquery
+			//Disable the spin button to prevent multiple timers being set.
+			$spinButton.prop("disabled", true);
 
-		//Reset the slot machine by removing previous slot images and text.
-		$leftSlot.empty();
-		$middleSlot.empty();
-		$rightSlot.empty();
-		$("#outcome").empty();
+			//Hold the number of milliseconds for each slot's timer.
+			var leftTimerVal = $("#setLeftTimer").val(),
+				middleTimerVal = $("#setMiddleTimer").val(),
+				rightTimerVal = $("#setRightTimer").val();
 
-		//Initialize slots. The timer will only initialize the slots at the set time interval.
-		// Instead, we want the items to appear immediately once the button is clicked.
-		$leftSlot.append(randomElement());
-		$middleSlot.append(randomElement());
-		$rightSlot.append(randomElement());
+			//Reset the slot machine by removing previous slot images and text.
+			$leftSlot.empty();
+			$middleSlot.empty();
+			$rightSlot.empty();
+			$("#outcome").empty();
 
-		$leftSlot.toggleClass("spinning");
-		$middleSlot.toggleClass("spinning");
-		$rightSlot.toggleClass("spinning");
-		$leftSlot.toggleClass("stopped");
-		$middleSlot.toggleClass("stopped");
-		$rightSlot.toggleClass("stopped");
+			//Initialize slots. The timer will only initialize the slots at the set time interval.
+			// Instead, we want the items to appear immediately once the button is clicked.
+			$leftSlot.append(randomElement());
+			$middleSlot.append(randomElement());
+			$rightSlot.append(randomElement());
 
-		leftTimer = chooseSlotItem($leftSlot, leftTimerVal, true);
-		middleTimer = chooseSlotItem($middleSlot, middleTimerVal, true);
-		rightTimer = chooseSlotItem($rightSlot, rightTimerVal, true);
+			$leftSlot.toggleClass("spinning");
+			$middleSlot.toggleClass("spinning");
+			$rightSlot.toggleClass("spinning");
+			$leftSlot.toggleClass("stopped");
+			$middleSlot.toggleClass("stopped");
+			$rightSlot.toggleClass("stopped");
+
+			leftTimer = chooseSlotItem($leftSlot, leftTimerVal, true);
+			middleTimer = chooseSlotItem($middleSlot, middleTimerVal, true);
+			rightTimer = chooseSlotItem($rightSlot, rightTimerVal, true);
+		} else{
+			$("#outcome").empty().append($("<p>").text("Not enough cash!"));
+		}
 	});
 
 	//Handle if the left Stop button was clicked.
